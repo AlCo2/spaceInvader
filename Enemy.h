@@ -9,11 +9,7 @@ private:
 public:
     Enemy(int width, int hight, int x, int y, int health);
 
-    void drawEnemy(SDL_Surface* surface)
-    {
-        SDL_Rect rect = {x, y, width, hight};
-        SDL_FillRect(surface, &rect, 0xffffff);
-    }
+    void drawEnemy(SDL_Surface* surface);
 };
 
 #endif // ENEMY_H_INCLUDED
