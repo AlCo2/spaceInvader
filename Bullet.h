@@ -19,7 +19,7 @@ public:
     void move();
     void draw(SDL_Surface* surface);
     static void drawBullets(SDL_Surface* surface);
-    static void moveBullets();
+    static void moveBullets(Enemy enemy);
     bool isEnemyHit(Enemy& enemy);
     bool isBulletOut();
     void deleteBullet();

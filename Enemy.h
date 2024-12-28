@@ -11,7 +11,7 @@ public:
 
     void drawEnemy(SDL_Surface* surface)
     {
-        SDL_Rect rect = {width, hight, x, y};
+        SDL_Rect rect = {x, y, width, hight};
         SDL_FillRect(surface, &rect, 0xffffff);
     }
 };

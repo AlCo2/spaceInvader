@@ -16,3 +16,11 @@ int Entity::getX()
 {
     return this->x;
 }
+int Entity::getHight()
+{
+    return this->hight;
+}
+int Entity::getWidth()
+{
+    return this->width;
+}
