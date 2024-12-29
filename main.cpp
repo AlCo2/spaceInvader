@@ -23,8 +23,8 @@ int main(int argc, char** argv)
 
     SDL_Rect clear_rect = {0, 0, WIDTH, HIGHT};
 
-    Player player = Player(50, 50, 100, HIGHT-50, 4, 2, 50);
-    Enemy* enemy = new Enemy(50, 50, 100, 40, 100);
+    Player player = Player(70, 50, 100, HIGHT-50, 4, 2, 50, "C:/Users/Coder/Pictures/lasercanon.png", renderer);
+    Enemy* enemy = new Enemy(50, 50, 100, 40, 100, "C:/Users/Coder/Pictures/enemySpace.png", renderer);
 
     bool keys[] = {false, false};
 

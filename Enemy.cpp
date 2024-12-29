@@ -1,7 +1,7 @@
 #include "Enemy.h"
 #include <iostream>
 
-Enemy::Enemy(int width, int hight, int x, int y, int health):Entity(width, hight, x, y){
+Enemy::Enemy(int width, int hight, int x, int y, int health, char* path,SDL_Renderer* renderer):Entity(width, hight, x, y, path, renderer){
     this->health = health;
 };
 
@@ -10,8 +10,7 @@ void Enemy::drawEnemy(SDL_Renderer* renderer)
     if (isDead())
         return;
     SDL_Rect rect = {x, y, width, hight};
-    SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
-    SDL_RenderFillRect(renderer, &rect);
+    SDL_RenderCopy(renderer, this->sprite, NULL, &rect);
 }
 
 void Enemy::damageEnemy(int damage)

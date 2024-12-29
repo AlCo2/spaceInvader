@@ -12,7 +12,7 @@ private:
     int damage;
 
 public:
-    Player(int width, int hight, int x, int y, int speed, int shootingSpeed, int damage);
+    Player(int width, int hight, int x, int y, int speed, int shootingSpeed, int damage, char* path,SDL_Renderer* renderer);
     void draw(SDL_Renderer* renderer);
     void moveLeft();
     void moveRight();

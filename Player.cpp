@@ -3,7 +3,7 @@
 #include "Player.h"
 #include "Bullet.h"
 
-Player::Player(int width, int hight, int x, int y, int speed, int shootingSpeed, int damage):Entity(width, hight, x, y){
+Player::Player(int width, int hight, int x, int y, int speed, int shootingSpeed, int damage, char* path, SDL_Renderer* renderer):Entity(width, hight, x, y, path, renderer){
     this->speed = speed;
     this->shootingSpeed = shootingSpeed;
     this->damage = damage;
@@ -12,9 +12,7 @@ Player::Player(int width, int hight, int x, int y, int speed, int shootingSpeed,
 void Player::draw(SDL_Renderer* renderer)
 {
     SDL_Rect rect = {x, y, width, hight};
-    SDL_SetRenderDrawColor(renderer, 0, 255, 0, 255);
-    SDL_RenderFillRect(renderer, &rect);
-    //SDL_FillRect(surface, &rect, 0x008000);
+    SDL_RenderCopy(renderer, this->sprite, NULL, &rect);
 }
 
 void Player::moveLeft(){

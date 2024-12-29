@@ -8,7 +8,7 @@ class Enemy : public Entity{
 private:
     int health;
 public:
-    Enemy(int width, int hight, int x, int y, int health);
+    Enemy(int width, int hight, int x, int y, int health, char* path, SDL_Renderer* renderer);
     void drawEnemy(SDL_Renderer* renderer);
     void damageEnemy(int damage);
     void kill();
