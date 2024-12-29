@@ -30,16 +30,18 @@ void Bullet::drawBullets(SDL_Surface* surface){
     }
 }
 
-void Bullet::moveBullets(Enemy enemy)
+void Bullet::moveBullets(Enemy* enemy)
 {
     for (auto i=bullets.begin();i<bullets.end();++i)
     {
-        if ((*i)->isEnemyHit(enemy))
+        if (!enemy->isDead() && (*i)->isEnemyHit(enemy))
         {
+            //TODO: Kill the enemy and delete it from screen
+            enemy->damageEnemy(50);
             (*i)->deleteBullet();
             bullets.erase(i);
         }
-        if ((*i)->isBulletOut())
+        else if ((*i)->isBulletOut())
         {
             (*i)->deleteBullet();
             bullets.erase(i);
@@ -49,9 +51,9 @@ void Bullet::moveBullets(Enemy enemy)
     }
 }
 
-bool Bullet::isEnemyHit(Enemy &enemy)
+bool Bullet::isEnemyHit(Enemy* enemy)
 {
-    if (this->y == enemy.getY() + enemy.getHight() && this->getX() >= enemy.getX() && this->getX() <= enemy.getX() + enemy.getWidth())
+    if (this->y == enemy->getY() + enemy->getHight() && this->getX() >= enemy->getX() && this->getX() <= enemy->getX() + enemy->getWidth())
         return true;
     return false;
 }

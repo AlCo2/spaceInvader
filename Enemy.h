@@ -4,12 +4,15 @@
 #include "Entity.h"
 
 class Enemy : public Entity{
+
 private:
     int health;
 public:
     Enemy(int width, int hight, int x, int y, int health);
-
     void drawEnemy(SDL_Surface* surface);
+    void damageEnemy(int damage);
+    void kill();
+    bool isDead();
 };
 
 #endif // ENEMY_H_INCLUDED

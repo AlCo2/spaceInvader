@@ -11,6 +11,7 @@ private:
     int y;
     int speed;
     int bulletSize;
+    bool isBulletOut();
 
 public:
     static std::vector<Bullet*> bullets;
@@ -19,9 +20,8 @@ public:
     void move();
     void draw(SDL_Surface* surface);
     static void drawBullets(SDL_Surface* surface);
-    static void moveBullets(Enemy enemy);
-    bool isEnemyHit(Enemy& enemy);
-    bool isBulletOut();
+    static void moveBullets(Enemy* enemy);
+    bool isEnemyHit(Enemy* enemy);
     void deleteBullet();
     int getX();
     int getY();

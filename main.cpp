@@ -24,7 +24,7 @@ int main(int argc, char** argv)
     SDL_Rect clear_rect = {0, 0, WIDTH, HIGHT};
 
     Player player = Player(50, 50, 100, HIGHT-50, 4, 2, 50);
-    Enemy enemy = Enemy(50, 50, 100, 40, 100);
+    Enemy* enemy = new Enemy(50, 50, 100, 40, 100);
 
     bool keys[] = {false, false};
 
@@ -79,8 +79,8 @@ int main(int argc, char** argv)
                 player.moveRight();
         }
         Bullet::moveBullets(enemy);
-        enemy.drawEnemy(surface);
         Bullet::drawBullets(surface);
+        enemy->drawEnemy(surface);
         player.draw(surface);
         SDL_UpdateWindowSurface(window);
         SDL_Delay(5);
