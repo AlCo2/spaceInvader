@@ -23,10 +23,10 @@ int Bullet::getY()
     return this->y;
 }
 
-void Bullet::drawBullets(SDL_Surface* surface){
+void Bullet::drawBullets(SDL_Renderer* renderer){
     for (Bullet* bullet:bullets)
     {
-        bullet->draw(surface);
+        bullet->draw(renderer);
     }
 }
 
@@ -63,10 +63,11 @@ bool Bullet::isBulletOut()
     return this->getY() < 0;
 }
 
-void Bullet::draw(SDL_Surface* surface)
+void Bullet::draw(SDL_Renderer* renderer)
 {
     SDL_Rect rect = {x, y, bulletSize / 2, bulletSize};
-    SDL_FillRect(surface, &rect, 0xFF0000);
+    SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
+    SDL_RenderFillRect(renderer, &rect);
 }
 
 void Bullet::deleteBullet()

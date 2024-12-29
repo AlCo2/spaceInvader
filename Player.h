@@ -13,7 +13,7 @@ private:
 
 public:
     Player(int width, int hight, int x, int y, int speed, int shootingSpeed, int damage);
-    void draw(SDL_Surface* surface);
+    void draw(SDL_Renderer* renderer);
     void moveLeft();
     void moveRight();
     Bullet* shoot();

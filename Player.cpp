@@ -9,10 +9,12 @@ Player::Player(int width, int hight, int x, int y, int speed, int shootingSpeed,
     this->damage = damage;
 }
 
-void Player::draw(SDL_Surface* surface)
+void Player::draw(SDL_Renderer* renderer)
 {
     SDL_Rect rect = {x, y, width, hight};
-    SDL_FillRect(surface, &rect, 0x008000);
+    SDL_SetRenderDrawColor(renderer, 0, 255, 0, 255);
+    SDL_RenderFillRect(renderer, &rect);
+    //SDL_FillRect(surface, &rect, 0x008000);
 }
 
 void Player::moveLeft(){

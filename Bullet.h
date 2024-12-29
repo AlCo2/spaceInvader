@@ -18,8 +18,8 @@ public:
 
     Bullet(int x, int y, int speed, int bulletSize);
     void move();
-    void draw(SDL_Surface* surface);
-    static void drawBullets(SDL_Surface* surface);
+    void draw(SDL_Renderer* renderer);
+    static void drawBullets(SDL_Renderer* renderer);
     static void moveBullets(Enemy* enemy);
     bool isEnemyHit(Enemy* enemy);
     void deleteBullet();

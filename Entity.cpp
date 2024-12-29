@@ -1,3 +1,4 @@
+#include <SDL.h>
 #include "Entity.h"
 
 Entity::Entity(int width , int hight, int x, int y)
@@ -7,7 +8,14 @@ Entity::Entity(int width , int hight, int x, int y)
     this->width = width;
     this->hight = hight;
 }
-
+Entity::Entity(int width , int hight, int x, int y, SDL_Texture* sprite)
+{
+    this->sprite = sprite;
+    this->x = x;
+    this->y = y;
+    this->width = width;
+    this->hight = hight;
+}
 int Entity::getY()
 {
     return this->y;

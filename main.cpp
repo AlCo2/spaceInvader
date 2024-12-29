@@ -18,7 +18,7 @@ int main(int argc, char** argv)
     SDL_Init(SDL_INIT_VIDEO);
     SDL_Event event;
     SDL_Window* window = SDL_CreateWindow("SpaceInvader", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, WIDTH, HIGHT, 0);
-    SDL_Surface* surface = SDL_GetWindowSurface(window);
+    SDL_Renderer* renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
     bool isRunning = true;
 
     SDL_Rect clear_rect = {0, 0, WIDTH, HIGHT};
@@ -31,7 +31,8 @@ int main(int argc, char** argv)
     while(isRunning)
     {
         // clear screen
-        SDL_FillRect(surface, &clear_rect, 0x000000);
+        SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
+        SDL_RenderClear(renderer);
         while(SDL_PollEvent(&event))
         {
             if (event.type == SDL_QUIT)
@@ -79,12 +80,13 @@ int main(int argc, char** argv)
                 player.moveRight();
         }
         Bullet::moveBullets(enemy);
-        Bullet::drawBullets(surface);
-        enemy->drawEnemy(surface);
-        player.draw(surface);
-        SDL_UpdateWindowSurface(window);
+        Bullet::drawBullets(renderer);
+        enemy->drawEnemy(renderer);
+        player.draw(renderer);
+        SDL_RenderPresent(renderer);
         SDL_Delay(5);
     }
+    SDL_DestroyRenderer(renderer);
     SDL_DestroyWindow(window);
     return 0;
 }

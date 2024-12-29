@@ -5,12 +5,13 @@ Enemy::Enemy(int width, int hight, int x, int y, int health):Entity(width, hight
     this->health = health;
 };
 
-void Enemy::drawEnemy(SDL_Surface* surface)
+void Enemy::drawEnemy(SDL_Renderer* renderer)
 {
     if (isDead())
         return;
     SDL_Rect rect = {x, y, width, hight};
-    SDL_FillRect(surface, &rect, 0xffffff);
+    SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
+    SDL_RenderFillRect(renderer, &rect);
 }
 
 void Enemy::damageEnemy(int damage)
