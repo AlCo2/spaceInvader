@@ -22,13 +22,22 @@ void Enemy::initEnemies(SDL_Renderer* renderer)
     for (const auto& line : structure)
     {
         std::vector<Enemy *> temp;
-        for (auto enemy : line)
+        for (auto type : line)
         {
-            switch(enemy){
+            Enemy* enemy = NULL;
+            switch(type){
                 case 0:
                     break;
                 case 1:
-                    Enemy* enemy = new Enemy(40, 40, x, y, 100, "assets/enemySpace.png", renderer);
+                    enemy = new Enemy(40, 40, x, y, 100, "assets/enemyPink.png", renderer);
+                    temp.push_back(enemy);
+                    break;
+                case 2:
+                    enemy = new Enemy(40, 40, x, y, 100, "assets/enemyGreen.png", renderer);
+                    temp.push_back(enemy);
+                    break;
+                case 3:
+                    enemy = new Enemy(40, 40, x, y, 100, "assets/enemyBlue.png", renderer);
                     temp.push_back(enemy);
                     break;
             }
