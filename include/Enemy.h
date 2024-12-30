@@ -4,6 +4,7 @@
 #include <vector>
 #include <SDL_mixer.h>
 #include "Entity.h"
+#include "Utils.h"
 
 class Enemy : public Entity{
 
@@ -24,7 +25,7 @@ public:
     Enemy(int width, int hight, int x, int y, int health, char* path, SDL_Renderer* renderer);
     Enemy(int width, int hight, int health, char* path, SDL_Renderer* renderer);
     void draw(SDL_Renderer* renderer);
-    void damageEnemy(int damage);
+    void damageEnemy(int damage, Explosion* explosion);
     void kill();
     bool isDead();
 };

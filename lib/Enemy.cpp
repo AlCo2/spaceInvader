@@ -2,7 +2,7 @@
 #include <vector>
 #include <SDL_mixer.h>
 #include "Enemy.h"
-
+#include "Utils.h"
 
 constexpr int Enemy::structure[4][7];
 std::vector<std::vector<Enemy*>> Enemy::enemies;
@@ -74,11 +74,16 @@ void Enemy::draw(SDL_Renderer* renderer)
     SDL_RenderCopy(renderer, this->sprite, NULL, &rect);
 }
 
-void Enemy::damageEnemy(int damage)
+void Enemy::damageEnemy(int damage, Explosion *explosion)
 {
     this->health -= damage;
     if (this->isDead())
     {
+        explosion->frame = 0;
+        explosion->isActive = true;
+        explosion->x = this->getX();
+        explosion->y = this->getY();
+        explosion->startTime = SDL_GetTicks();
         Mix_PlayChannel(-1, Enemy::enemyKilledSound, 0);
         this->kill();
     }

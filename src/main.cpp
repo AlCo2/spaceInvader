@@ -3,6 +3,7 @@
 #include <iostream>
 #include <vector>
 #include "Player.h"
+#include "Utils.h"
 
 #include "Enemy.h"
 
@@ -11,11 +12,28 @@ using namespace std;
 
 #define WIDTH 600
 #define HIGHT 400
+#define FRAME_DELAY 100
 
 enum KEY{
 D,
 A
 };
+
+void updateAnimation(Explosion *explosion) {
+    if (!explosion->isActive) {
+        return;
+    }
+
+    Uint32 currentTime = SDL_GetTicks();
+    Uint32 elapsedTime = currentTime - explosion->startTime;
+
+    explosion->frame = (elapsedTime / FRAME_DELAY);
+
+    if (explosion->frame >= 11) {
+        explosion->isActive = false;
+        explosion->frame = 0;
+    }
+}
 
 int main(int argc, char** argv)
 {
@@ -29,11 +47,19 @@ int main(int argc, char** argv)
     bool isRunning = true;
 
     Player player = Player(64, 64, WIDTH/2, HIGHT-64, 4, 2, 50, "assets/spaceShip.png", renderer);
+
     Enemy::initEnemies(renderer);
+
     music = Mix_LoadMUS("sounds/song.mpeg");
     enemyKilledSound = Mix_LoadWAV("sounds/enemykilled.wav");
     Enemy::enemyKilledSound = enemyKilledSound;
+
     bool keys[] = {false, false};
+
+    Uint32 lastUpdateTime = 0;
+    Explosion explosion;
+
+    SDL_Texture* explosionAnimation = loadTexture("assets/spritesheet/first_explosion/spritesheet.png", renderer);
 
     while(isRunning)
     {
@@ -90,7 +116,23 @@ int main(int argc, char** argv)
         {
             Mix_PlayMusic( music, -1 );
         }
-        Bullet::moveBullets(Enemy::enemies);
+
+        Uint32 currentTime = SDL_GetTicks();
+        if (currentTime > lastUpdateTime + 500) {
+            explosion.frame = (explosion.frame + 1) % 4;
+            lastUpdateTime = currentTime;
+        }
+
+        updateAnimation(&explosion);
+        if (explosion.isActive)
+        {
+            SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
+            SDL_Rect srcRect = {explosion.frame * 32, 0, 32, 32};
+            SDL_Rect destRect = {explosion.x, explosion.y, 40, 40};
+            SDL_RenderCopy(renderer, explosionAnimation, &srcRect, &destRect);
+        }
+
+        Bullet::moveBullets(Enemy::enemies, &explosion);
         Enemy::drawEnemies(renderer);
         Bullet::drawBullets(renderer);
         player.draw(renderer);

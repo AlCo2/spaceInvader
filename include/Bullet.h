@@ -3,6 +3,7 @@
 #include <vector>
 #include <SDL.h>
 #include "Enemy.h"
+#include "Utils.h"
 
 class Bullet{
 
@@ -20,7 +21,7 @@ public:
     void move();
     void draw(SDL_Renderer* renderer);
     static void drawBullets(SDL_Renderer* renderer);
-    static void moveBullets(std::vector<std::vector<Enemy*>> enemies);
+    static void moveBullets(std::vector<std::vector<Enemy*>> enemies, Explosion* explosion);
     bool isEnemyHit(Enemy* enemy);
     void deleteBullet();
     int getX();

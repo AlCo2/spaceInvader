@@ -30,7 +30,7 @@ void Bullet::drawBullets(SDL_Renderer* renderer){
     }
 }
 
-void Bullet::moveBullets(std::vector<std::vector<Enemy*>> enemies)
+void Bullet::moveBullets(std::vector<std::vector<Enemy*>> enemies, Explosion *explosion)
 {
     for (auto i=bullets.begin();i<bullets.end();++i)
     {
@@ -40,7 +40,7 @@ void Bullet::moveBullets(std::vector<std::vector<Enemy*>> enemies)
             {
                 if (!enemies[x][y]->isDead() && (*i)->isEnemyHit(enemies[x][y]))
                 {
-                    enemies[x][y]->damageEnemy(50);
+                    enemies[x][y]->damageEnemy(50, explosion);
                     (*i)->deleteBullet();
                     bullets.erase(i);
                     return;
