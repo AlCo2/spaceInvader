@@ -21,7 +21,7 @@ int main(int argc, char** argv)
     SDL_Renderer* renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
     bool isRunning = true;
 
-    Player player = Player(70, 50, WIDTH/2 - 70, HIGHT-50, 4, 2, 50, "C:/Users/Coder/Pictures/lasercanon.png", renderer);
+    Player player = Player(70, 50, WIDTH/2 - 70, HIGHT-50, 4, 2, 50, "assets/lasercanon.png", renderer);
     Enemy::initEnemies(renderer);
     bool keys[] = {false, false};
 

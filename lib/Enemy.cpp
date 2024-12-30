@@ -28,7 +28,7 @@ void Enemy::initEnemies(SDL_Renderer* renderer)
                 case 0:
                     break;
                 case 1:
-                    Enemy* enemy = new Enemy(40, 40, x, y, 100, "C:/Users/Coder/Pictures/enemySpace.png", renderer);
+                    Enemy* enemy = new Enemy(40, 40, x, y, 100, "assets/enemySpace.png", renderer);
                     temp.push_back(enemy);
                     break;
             }
