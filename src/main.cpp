@@ -21,11 +21,8 @@ int main(int argc, char** argv)
     SDL_Renderer* renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
     bool isRunning = true;
 
-    SDL_Rect clear_rect = {0, 0, WIDTH, HIGHT};
-
-    Player player = Player(70, 50, 100, HIGHT-50, 4, 2, 50, "C:/Users/Coder/Pictures/lasercanon.png", renderer);
-    Enemy* enemy = new Enemy(50, 50, 100, 40, 100, "C:/Users/Coder/Pictures/enemySpace.png", renderer);
-
+    Player player = Player(70, 50, WIDTH/2 - 70, HIGHT-50, 4, 2, 50, "C:/Users/Coder/Pictures/lasercanon.png", renderer);
+    Enemy::initEnemies(renderer);
     bool keys[] = {false, false};
 
     while(isRunning)
@@ -79,9 +76,9 @@ int main(int argc, char** argv)
             if (player.getX() < WIDTH - player.getWidth())
                 player.moveRight();
         }
-        Bullet::moveBullets(enemy);
+        //Bullet::moveBullets(enemy);
+        Enemy::drawEnemies(renderer);
         Bullet::drawBullets(renderer);
-        enemy->drawEnemy(renderer);
         player.draw(renderer);
         SDL_RenderPresent(renderer);
         SDL_Delay(5);
