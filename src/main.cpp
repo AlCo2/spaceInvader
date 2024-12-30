@@ -1,8 +1,12 @@
 #include <SDL.h>
+#include <SDL_mixer.h>
 #include <iostream>
-#include "Player.h"
 #include <vector>
+#include "Player.h"
+
 #include "Enemy.h"
+
+
 using namespace std;
 
 #define WIDTH 600
@@ -15,14 +19,20 @@ A
 
 int main(int argc, char** argv)
 {
-    SDL_Init(SDL_INIT_VIDEO);
+    SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO);
     SDL_Event event;
+    Mix_Music* music = NULL;
+    Mix_Chunk* enemyKilledSound = NULL;
     SDL_Window* window = SDL_CreateWindow("SpaceInvader", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, WIDTH, HIGHT, 0);
     SDL_Renderer* renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
+    Mix_OpenAudio( 44100, MIX_DEFAULT_FORMAT, 2, 2048 );
     bool isRunning = true;
 
-    Player player = Player(70, 50, WIDTH/2 - 70, HIGHT-50, 4, 2, 50, "assets/lasercanon.png", renderer);
+    Player player = Player(64, 64, WIDTH/2, HIGHT-64, 4, 2, 50, "assets/spaceShip.png", renderer);
     Enemy::initEnemies(renderer);
+    music = Mix_LoadMUS("sounds/song.mpeg");
+    enemyKilledSound = Mix_LoadWAV("sounds/enemykilled.wav");
+    Enemy::enemyKilledSound = enemyKilledSound;
     bool keys[] = {false, false};
 
     while(isRunning)
@@ -76,6 +86,10 @@ int main(int argc, char** argv)
             if (player.getX() < WIDTH - player.getWidth())
                 player.moveRight();
         }
+        if( Mix_PlayingMusic() == 0 )
+        {
+            Mix_PlayMusic( music, -1 );
+        }
         Bullet::moveBullets(Enemy::enemies);
         Enemy::drawEnemies(renderer);
         Bullet::drawBullets(renderer);
@@ -83,6 +97,7 @@ int main(int argc, char** argv)
         SDL_RenderPresent(renderer);
         SDL_Delay(5);
     }
+    Mix_FreeMusic(music);
     SDL_DestroyRenderer(renderer);
     SDL_DestroyWindow(window);
     return 0;

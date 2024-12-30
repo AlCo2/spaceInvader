@@ -1,10 +1,12 @@
 #include <iostream>
 #include <vector>
+#include <SDL_mixer.h>
 #include "Enemy.h"
 
 
 constexpr int Enemy::structure[4][7];
 std::vector<std::vector<Enemy*>> Enemy::enemies;
+Mix_Chunk* Enemy::enemyKilledSound;
 
 Enemy::Enemy(int width, int hight, int x, int y, int health, char* path,SDL_Renderer* renderer):Entity(width, hight, x, y, path, renderer){
     this->health = health;
@@ -77,9 +79,9 @@ void Enemy::damageEnemy(int damage)
     this->health -= damage;
     if (this->isDead())
     {
+        Mix_PlayChannel(-1, Enemy::enemyKilledSound, 0);
         this->kill();
     }
-
 }
 
 void Enemy::kill()

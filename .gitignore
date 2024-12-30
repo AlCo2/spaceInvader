@@ -1,5 +1,6 @@
 SDL2.dll
 SDL2_image.dll
+SDL2_mixer.dll
 spaceInvader.cbp
 spaceInvader.depend
 spaceInvader.layout

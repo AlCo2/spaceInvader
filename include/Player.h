@@ -3,13 +3,14 @@
 #include <SDL.h>
 #include "Entity.h"
 #include "Bullet.h"
-
+#include "SDL_mixer.h"
 
 class Player : public Entity{
 private:
     int speed;
     int shootingSpeed;
     int damage;
+    Mix_Chunk* shootSound = NULL;
 
 public:
     Player(int width, int hight, int x, int y, int speed, int shootingSpeed, int damage, char* path,SDL_Renderer* renderer);

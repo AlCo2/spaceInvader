@@ -2,6 +2,7 @@
 #define ENEMY_H_INCLUDED
 #include <SDL.h>
 #include <vector>
+#include <SDL_mixer.h>
 #include "Entity.h"
 
 class Enemy : public Entity{
@@ -15,6 +16,7 @@ private:
         {3, 3, 3, 3, 3, 3, 3}
     };
 public:
+    static Mix_Chunk* enemyKilledSound;
     static std::vector<std::vector<Enemy*>> enemies;
     static void initEnemies(SDL_Renderer* renderer);
     static void drawEnemies(SDL_Renderer* renderer);

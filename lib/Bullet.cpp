@@ -71,7 +71,7 @@ bool Bullet::isBulletOut()
 
 void Bullet::draw(SDL_Renderer* renderer)
 {
-    SDL_Rect rect = {x, y, bulletSize / 2, bulletSize};
+    SDL_Rect rect = {x, y - 10, bulletSize / 2, bulletSize};
     SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
     SDL_RenderFillRect(renderer, &rect);
 }
