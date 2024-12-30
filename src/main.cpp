@@ -76,7 +76,7 @@ int main(int argc, char** argv)
             if (player.getX() < WIDTH - player.getWidth())
                 player.moveRight();
         }
-        //Bullet::moveBullets(enemy);
+        Bullet::moveBullets(Enemy::enemies);
         Enemy::drawEnemies(renderer);
         Bullet::drawBullets(renderer);
         player.draw(renderer);

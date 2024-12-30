@@ -30,24 +30,30 @@ void Bullet::drawBullets(SDL_Renderer* renderer){
     }
 }
 
-void Bullet::moveBullets(Enemy* enemy)
+void Bullet::moveBullets(std::vector<std::vector<Enemy*>> enemies)
 {
     for (auto i=bullets.begin();i<bullets.end();++i)
     {
-        if (!enemy->isDead() && (*i)->isEnemyHit(enemy))
+        for (int x=0;x<enemies.size();x++)
         {
-            //TODO: Kill the enemy and delete it from screen
-            enemy->damageEnemy(50);
-            (*i)->deleteBullet();
-            bullets.erase(i);
+            for (int y=0;y<enemies[x].size();y++)
+            {
+                if (!enemies[x][y]->isDead() && (*i)->isEnemyHit(enemies[x][y]))
+                {
+                    enemies[x][y]->damageEnemy(50);
+                    (*i)->deleteBullet();
+                    bullets.erase(i);
+                    return;
+                }
+                else if ((*i)->isBulletOut())
+                {
+                    (*i)->deleteBullet();
+                    bullets.erase(i);
+                    return;
+                }
+            }
         }
-        else if ((*i)->isBulletOut())
-        {
-            (*i)->deleteBullet();
-            bullets.erase(i);
-        }
-        else
-            (*i)->move();
+        (*i)->move();
     }
 }
 

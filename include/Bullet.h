@@ -20,7 +20,7 @@ public:
     void move();
     void draw(SDL_Renderer* renderer);
     static void drawBullets(SDL_Renderer* renderer);
-    static void moveBullets(Enemy* enemy);
+    static void moveBullets(std::vector<std::vector<Enemy*>> enemies);
     bool isEnemyHit(Enemy* enemy);
     void deleteBullet();
     int getX();

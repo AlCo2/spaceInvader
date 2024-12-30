@@ -29,11 +29,11 @@ void Enemy::initEnemies(SDL_Renderer* renderer)
                 case 0:
                     break;
                 case 1:
-                    enemy = new Enemy(40, 40, x, y, 100, "assets/enemyPink.png", renderer);
+                    enemy = new Enemy(40, 40, x, y, 300, "assets/enemyPink.png", renderer);
                     temp.push_back(enemy);
                     break;
                 case 2:
-                    enemy = new Enemy(40, 40, x, y, 100, "assets/enemyGreen.png", renderer);
+                    enemy = new Enemy(40, 40, x, y, 200, "assets/enemyGreen.png", renderer);
                     temp.push_back(enemy);
                     break;
                 case 3:
@@ -56,6 +56,8 @@ void Enemy::drawEnemies(SDL_Renderer* renderer)
     {
         for (int j=0;j<enemies[i].size();j++)
         {
+            if (enemies[i][j]->isDead())
+                continue;
             SDL_Rect rect = {enemies[i][j]->getX(), enemies[i][j]->getY(), enemies[i][j]->getWidth(), enemies[i][j]->getHight()};
             SDL_RenderCopy(renderer, enemies[i][j]->getSprite(), NULL, &rect);
         }
@@ -73,7 +75,7 @@ void Enemy::draw(SDL_Renderer* renderer)
 void Enemy::damageEnemy(int damage)
 {
     this->health -= damage;
-    if (!this->isDead())
+    if (this->isDead())
     {
         this->kill();
     }
