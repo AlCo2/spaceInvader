@@ -3,6 +3,7 @@
 #include <vector>
 #include <iostream>
 #include "Enemy.h"
+#include "Animation.h"
 
 std::vector<Bullet*> Bullet::bullets;
 
@@ -30,7 +31,7 @@ void Bullet::drawBullets(SDL_Renderer* renderer){
     }
 }
 
-void Bullet::moveBullets(std::vector<std::vector<Enemy*>> enemies, Explosion *explosion)
+void Bullet::moveBullets(std::vector<std::vector<Enemy*>> enemies, Animation* explosionAnimation)
 {
     for (auto i=bullets.begin();i<bullets.end();++i)
     {
@@ -40,7 +41,7 @@ void Bullet::moveBullets(std::vector<std::vector<Enemy*>> enemies, Explosion *ex
             {
                 if (!enemies[x][y]->isDead() && (*i)->isEnemyHit(enemies[x][y]))
                 {
-                    enemies[x][y]->damageEnemy(50, explosion);
+                    enemies[x][y]->damageEnemy(50, explosionAnimation);
                     (*i)->deleteBullet();
                     bullets.erase(i);
                     return;

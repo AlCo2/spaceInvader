@@ -4,7 +4,7 @@
 #include <vector>
 #include "Player.h"
 #include "Utils.h"
-
+#include "Animation.h"
 #include "Enemy.h"
 
 
@@ -12,28 +12,11 @@ using namespace std;
 
 #define WIDTH 600
 #define HIGHT 400
-#define FRAME_DELAY 100
 
 enum KEY{
 D,
 A
 };
-
-void updateAnimation(Explosion *explosion) {
-    if (!explosion->isActive) {
-        return;
-    }
-
-    Uint32 currentTime = SDL_GetTicks();
-    Uint32 elapsedTime = currentTime - explosion->startTime;
-
-    explosion->frame = (elapsedTime / FRAME_DELAY);
-
-    if (explosion->frame >= 11) {
-        explosion->isActive = false;
-        explosion->frame = 0;
-    }
-}
 
 int main(int argc, char** argv)
 {
@@ -44,6 +27,7 @@ int main(int argc, char** argv)
     SDL_Window* window = SDL_CreateWindow("SpaceInvader", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, WIDTH, HIGHT, 0);
     SDL_Renderer* renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
     Mix_OpenAudio( 44100, MIX_DEFAULT_FORMAT, 2, 2048 );
+    vector<Animation*> animation;
     bool isRunning = true;
 
     Player player = Player(64, 64, WIDTH/2, HIGHT-64, 4, 2, 50, "assets/spaceShip.png", renderer);
@@ -57,9 +41,7 @@ int main(int argc, char** argv)
     bool keys[] = {false, false};
 
     Uint32 lastUpdateTime = 0;
-    Explosion explosion;
-
-    SDL_Texture* explosionAnimation = loadTexture("assets/spritesheet/first_explosion/spritesheet.png", renderer);
+    Animation explosionAnimation = Animation("assets/spritesheet/first_explosion/spritesheet.png", renderer, 11, 32);
 
     while(isRunning)
     {
@@ -117,22 +99,9 @@ int main(int argc, char** argv)
             Mix_PlayMusic( music, -1 );
         }
 
-        Uint32 currentTime = SDL_GetTicks();
-        if (currentTime > lastUpdateTime + 500) {
-            explosion.frame = (explosion.frame + 1) % 4;
-            lastUpdateTime = currentTime;
-        }
-
-        updateAnimation(&explosion);
-        if (explosion.isActive)
-        {
-            SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
-            SDL_Rect srcRect = {explosion.frame * 32, 0, 32, 32};
-            SDL_Rect destRect = {explosion.x, explosion.y, 40, 40};
-            SDL_RenderCopy(renderer, explosionAnimation, &srcRect, &destRect);
-        }
-
-        Bullet::moveBullets(Enemy::enemies, &explosion);
+        Animation::updateAnimation(&explosionAnimation, 100);
+        Animation::drawAnimation(explosionAnimation, renderer);
+        Bullet::moveBullets(Enemy::enemies, &explosionAnimation);
         Enemy::drawEnemies(renderer);
         Bullet::drawBullets(renderer);
         player.draw(renderer);

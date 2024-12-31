@@ -3,12 +3,13 @@
 #include <SDL_mixer.h>
 #include "Enemy.h"
 #include "Utils.h"
+#include <Animation.h>
 
 constexpr int Enemy::structure[4][7];
 std::vector<std::vector<Enemy*>> Enemy::enemies;
 Mix_Chunk* Enemy::enemyKilledSound;
 
-Enemy::Enemy(int width, int hight, int x, int y, int health, char* path,SDL_Renderer* renderer):Entity(width, hight, x, y, path, renderer){
+Enemy::Enemy(int width, int hight, int x, int y, int health, char* path, SDL_Renderer* renderer):Entity(width, hight, x, y, path, renderer){
     this->health = health;
 }
 
@@ -21,6 +22,8 @@ void Enemy::initEnemies(SDL_Renderer* renderer)
 {
     int x = 30;
     int y = 20;
+    Animation normalExplosionAnimation = Animation("assets/spritesheet/first_explosion/spritesheet.png", renderer, 11, 32);
+    Animation electricExplosionAnimation = Animation("assets/spritesheet/light_explosion/spritesheet.png", renderer, 16, 72);
     for (const auto& line : structure)
     {
         std::vector<Enemy *> temp;
@@ -32,14 +35,17 @@ void Enemy::initEnemies(SDL_Renderer* renderer)
                     break;
                 case 1:
                     enemy = new Enemy(40, 40, x, y, 300, "assets/enemyPink.png", renderer);
+                    enemy->setExplosionAnimation(&electricExplosionAnimation);
                     temp.push_back(enemy);
                     break;
                 case 2:
                     enemy = new Enemy(40, 40, x, y, 200, "assets/enemyGreen.png", renderer);
+                    enemy->setExplosionAnimation(&normalExplosionAnimation);
                     temp.push_back(enemy);
                     break;
                 case 3:
                     enemy = new Enemy(40, 40, x, y, 100, "assets/enemyBlue.png", renderer);
+                    enemy->setExplosionAnimation(&normalExplosionAnimation);
                     temp.push_back(enemy);
                     break;
             }
@@ -49,6 +55,11 @@ void Enemy::initEnemies(SDL_Renderer* renderer)
         x = 30;
         y += 40;
     }
+}
+
+void Enemy::setExplosionAnimation(Animation* explosionAnimation)
+{
+    this->explosionAnimation = explosionAnimation;
 }
 
 void Enemy::drawEnemies(SDL_Renderer* renderer)
@@ -74,16 +85,12 @@ void Enemy::draw(SDL_Renderer* renderer)
     SDL_RenderCopy(renderer, this->sprite, NULL, &rect);
 }
 
-void Enemy::damageEnemy(int damage, Explosion *explosion)
+void Enemy::damageEnemy(int damage, Animation* explosionAnimation)
 {
     this->health -= damage;
     if (this->isDead())
     {
-        explosion->frame = 0;
-        explosion->isActive = true;
-        explosion->x = this->getX();
-        explosion->y = this->getY();
-        explosion->startTime = SDL_GetTicks();
+        explosionAnimation->startAnimation(this->x, this->y);
         Mix_PlayChannel(-1, Enemy::enemyKilledSound, 0);
         this->kill();
     }

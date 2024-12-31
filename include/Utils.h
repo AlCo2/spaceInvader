@@ -10,5 +10,7 @@ typedef struct Explosion{
 }Explosion;
 
 SDL_Texture* loadTexture(char* path, SDL_Renderer* renderer);
+void updateAnimation(Explosion *explosion);
+
 
 #endif // UTILS_H_INCLUDED
