@@ -28,14 +28,14 @@ void Animation::updateAnimation(Animation* animation, int FRAME_DELAY)
     }
 }
 
-void Animation::drawAnimation(Animation animation, SDL_Renderer* renderer)
+void Animation::drawAnimation(Animation* animation, SDL_Renderer* renderer)
 {
-    if (animation.getIsActive())
+    if (animation->getIsActive())
     {
         SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
-        SDL_Rect srcRect = {animation.getFrame() * animation.getFrame_size(), 0, animation.getFrame_size(), animation.getFrame_size()};
-        SDL_Rect destRect = {animation.getX(), animation.getY(), 40, 40};
-        SDL_RenderCopy(renderer, animation.getTexture(), &srcRect, &destRect);
+        SDL_Rect srcRect = {animation->getFrame() * animation->getFrame_size(), 0, animation->getFrame_size(), animation->getFrame_size()};
+        SDL_Rect destRect = {animation->getX(), animation->getY(), 40, 40};
+        SDL_RenderCopy(renderer, animation->getTexture(), &srcRect, &destRect);
     }
 }
 
@@ -110,4 +110,9 @@ void Animation::setFrame(int frame)
 Uint32 Animation::getStartTime()
 {
     return this->startTime;
+}
+
+Animation::~Animation()
+{
+    //std::cout << "animation  deleted" << std::endl;
 }

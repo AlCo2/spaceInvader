@@ -41,7 +41,7 @@ void Bullet::moveBullets(std::vector<std::vector<Enemy*>> enemies, Animation* ex
             {
                 if (!enemies[x][y]->isDead() && (*i)->isEnemyHit(enemies[x][y]))
                 {
-                    enemies[x][y]->damageEnemy(50, explosionAnimation);
+                    enemies[x][y]->damageEnemy(50);
                     (*i)->deleteBullet();
                     bullets.erase(i);
                     return;

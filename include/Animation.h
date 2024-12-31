@@ -1,5 +1,6 @@
 #ifndef ANIMATION_H_INCLUDED
 #define ANIMATION_H_INCLUDED
+#include <iostream>
 #include <SDL.h>
 
 class Animation{
@@ -18,7 +19,7 @@ public:
     Animation(char* path, SDL_Renderer* renderer, int total_frames, int frame_size);
 
     static void updateAnimation(Animation* animation, int FRAME_DELAY);
-    static void drawAnimation(Animation animation, SDL_Renderer* renderer);
+    static void drawAnimation(Animation* animation, SDL_Renderer* renderer);
     void startAnimation(int x, int y);
 
     Uint32 getStartTime();
@@ -36,5 +37,6 @@ public:
     void setFrame_size(int frame_size);
     void setIsActive(bool isActive);
 
+    ~Animation();
 };
 #endif // ANIMATION_H_INCLUDED

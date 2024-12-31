@@ -6,7 +6,7 @@
 #include "Utils.h"
 #include "Animation.h"
 #include "Enemy.h"
-
+#include <algorithm>
 
 using namespace std;
 
@@ -27,7 +27,6 @@ int main(int argc, char** argv)
     SDL_Window* window = SDL_CreateWindow("SpaceInvader", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, WIDTH, HIGHT, 0);
     SDL_Renderer* renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
     Mix_OpenAudio( 44100, MIX_DEFAULT_FORMAT, 2, 2048 );
-    vector<Animation*> animation;
     bool isRunning = true;
 
     Player player = Player(64, 64, WIDTH/2, HIGHT-64, 4, 2, 50, "assets/spaceShip.png", renderer);
@@ -99,8 +98,17 @@ int main(int argc, char** argv)
             Mix_PlayMusic( music, -1 );
         }
 
-        Animation::updateAnimation(&explosionAnimation, 100);
-        Animation::drawAnimation(explosionAnimation, renderer);
+        for (Animation* explosionAnimation : Enemy::animation)
+        {
+            if (!explosionAnimation->getIsActive())
+            {
+                auto it = std::find(Enemy::animation.begin(), Enemy::animation.end(), explosionAnimation);
+                Enemy::animation.erase(it);
+                delete explosionAnimation;
+            }
+            Animation::updateAnimation(explosionAnimation, 100);
+            Animation::drawAnimation(explosionAnimation, renderer);
+        }
         Bullet::moveBullets(Enemy::enemies, &explosionAnimation);
         Enemy::drawEnemies(renderer);
         Bullet::drawBullets(renderer);

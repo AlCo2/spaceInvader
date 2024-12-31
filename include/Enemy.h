@@ -22,13 +22,15 @@ private:
 public:
     static Mix_Chunk* enemyKilledSound;
     static std::vector<std::vector<Enemy*>> enemies;
+    static std::vector<Animation*> animation;
     static void initEnemies(SDL_Renderer* renderer);
     static void drawEnemies(SDL_Renderer* renderer);
 
     Enemy(int width, int hight, int x, int y, int health, char* path, SDL_Renderer* renderer);
     Enemy(int width, int hight, int health, char* path, SDL_Renderer* renderer);
+    ~Enemy();
     void draw(SDL_Renderer* renderer);
-    void damageEnemy(int damage, Animation* explosionAnimation);
+    void damageEnemy(int damage);
     void setExplosionAnimation(Animation* explosionAnimation);
     void kill();
     bool isDead();
