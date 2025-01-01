@@ -19,7 +19,7 @@ Game::Game(SDL_Renderer* renderer)
     this->renderer = renderer;
 }
 
-void Game::run()
+AppState Game::run()
 {
     SDL_Event event;
     Mix_Music* music = NULL;
@@ -30,6 +30,9 @@ void Game::run()
     Player player = Player(64, 64, WIDTH/2, HIGHT-64, 4, 2, 50, "assets/spaceShip.png", renderer);
 
     Enemy::initEnemies(renderer);
+
+    SDL_Texture* background = loadTexture("assets/gameBackground.jpg", renderer);
+
 
     music = Mix_LoadMUS("sounds/song.mpeg");
     enemyKilledSound = Mix_LoadWAV("sounds/enemykilled.wav");
@@ -45,11 +48,11 @@ void Game::run()
         // clear screen
         SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
         SDL_RenderClear(renderer);
+        SDL_RenderCopy(renderer, background, NULL, NULL);
         while(SDL_PollEvent(&event))
         {
             if (event.type == SDL_QUIT)
-                isRunning = false;
-
+                return AppState::EXIT;
             if (event.type == SDL_KEYDOWN)
             {
                 switch (event.key.keysym.sym)

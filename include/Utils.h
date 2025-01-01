@@ -1,16 +1,14 @@
 #ifndef UTILS_H_INCLUDED
 #define UTILS_H_INCLUDED
 #include <SDL.h>
+#include <string>
+#include "SDL_ttf.h"
 
-typedef struct Explosion{
-    int frame;
-    int x, y;
-    Uint32 startTime;
-    bool isActive = false;
-}Explosion;
+
+enum AppState { MENU, GAME, EXIT };
 
 SDL_Texture* loadTexture(char* path, SDL_Renderer* renderer);
-void updateAnimation(Explosion *explosion);
 
+void renderText(SDL_Renderer* renderer, TTF_Font* font, const std::string& text, int x, int y, SDL_Color color);
 
 #endif // UTILS_H_INCLUDED

@@ -2,13 +2,14 @@
 #define GAME_H_INCLUDED
 
 #include <SDL.h>
+#include "Utils.h"
 
 class Game{
 private:
     SDL_Renderer* renderer;
 public:
     Game(SDL_Renderer* renderer);
-    void run();
+    AppState run();
 };
 
 #endif // GAME_H_INCLUDED
