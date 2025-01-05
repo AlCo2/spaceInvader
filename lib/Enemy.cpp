@@ -4,19 +4,22 @@
 #include "Enemy.h"
 #include "Utils.h"
 #include <Animation.h>
+#include "Player.h"
 
 constexpr int Enemy::structure[4][7];
 std::vector<std::vector<Enemy*>> Enemy::enemies;
 std::vector<Animation*> Enemy::animation;
 Mix_Chunk* Enemy::enemyKilledSound;
 
-Enemy::Enemy(int width, int hight, int x, int y, int health, char* path, SDL_Renderer* renderer):Entity(width, hight, x, y, path, renderer){
+Enemy::Enemy(int width, int hight, int x, int y, int health, int point,char* path, SDL_Renderer* renderer):Entity(width, hight, x, y, path, renderer){
     this->health = health;
+    this->point = point;
 }
 
-Enemy::Enemy(int width, int hight, int health, char* path, SDL_Renderer* renderer):Entity(width, hight, path, renderer)
+Enemy::Enemy(int width, int hight, int health, int point, char* path, SDL_Renderer* renderer):Entity(width, hight, path, renderer)
 {
     this->health = health;
+    this->point = point;
 }
 
 void Enemy::initEnemies(SDL_Renderer* renderer)
@@ -36,19 +39,19 @@ void Enemy::initEnemies(SDL_Renderer* renderer)
                 case 0:
                     break;
                 case 1:
-                    enemy = new Enemy(40, 40, x, y, 300, "assets/enemyPink.png", renderer);
+                    enemy = new Enemy(40, 40, x, y, 300, 50,"assets/enemyPink.png", renderer);
                     electricExplosionAnimation = new Animation("assets/spritesheet/light_explosion/spritesheet.png", renderer, 16, 72);
                     enemy->setExplosionAnimation(electricExplosionAnimation);
                     temp.push_back(enemy);
                     break;
                 case 2:
-                    enemy = new Enemy(40, 40, x, y, 200, "assets/enemyGreen.png", renderer);
+                    enemy = new Enemy(40, 40, x, y,200, 25, "assets/enemyGreen.png", renderer);
                     normalExplosionAnimation = new Animation("assets/spritesheet/shoke_explosion/spritesheet.png", renderer, 7, 140);
                     enemy->setExplosionAnimation(normalExplosionAnimation);
                     temp.push_back(enemy);
                     break;
                 case 3:
-                    enemy = new Enemy(40, 40, x, y, 100, "assets/enemyBlue.png", renderer);
+                    enemy = new Enemy(40, 40, x, y, 100, 10, "assets/enemyBlue.png", renderer);
                     normalExplosionAnimation = new Animation("assets/spritesheet/first_explosion/spritesheet.png", renderer, 11, 32);
                     enemy->setExplosionAnimation(normalExplosionAnimation);
                     temp.push_back(enemy);
@@ -90,15 +93,16 @@ void Enemy::draw(SDL_Renderer* renderer)
     SDL_RenderCopy(renderer, this->sprite, NULL, &rect);
 }
 
-void Enemy::damageEnemy(int damage)
+void Enemy::damageEnemy(Player* player)
 {
-    this->health -= damage;
+    this->health -= player->getDamage();
     if (this->isDead())
     {
+        player->setScore(player->getScore() + this->point);
         this->explosionAnimation->startAnimation(this->x, this->y);
         Enemy::animation.push_back(this->explosionAnimation);
         Mix_PlayChannel(-1, Enemy::enemyKilledSound, 0);
-        this->kill();
+        //this->kill();
     }
 }
 

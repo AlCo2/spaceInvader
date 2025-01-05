@@ -10,7 +10,9 @@ private:
     int speed;
     int shootingSpeed;
     int damage;
+    int score;
     Mix_Chunk* shootSound = NULL;
+
 
 public:
     Player(int width, int hight, int x, int y, int speed, int shootingSpeed, int damage, char* path,SDL_Renderer* renderer);
@@ -21,7 +23,12 @@ public:
 
     int getX();
     int getY();
+    int getScore();
+    int getDamage();
     int getWidth();
+
+    void setScore(int score);
+    void setDamage(int damage);
 };
 
 #endif // PLAYER_H_INCLUDED

@@ -10,6 +10,7 @@ Player::Player(int width, int hight, int x, int y, int speed, int shootingSpeed,
     this->shootingSpeed = shootingSpeed;
     this->damage = damage;
     this->shootSound = Mix_LoadWAV("sounds/shoot.wav");
+    this->score = 0;
 }
 
 void Player::draw(SDL_Renderer* renderer)
@@ -24,6 +25,11 @@ void Player::moveLeft(){
 
 void Player::moveRight(){
     this->x += speed;
+}
+
+void Player::setScore(int score)
+{
+    this->score = score;
 }
 
 Bullet* Player::shoot(){
@@ -45,4 +51,14 @@ int Player::getY()
 int Player::getWidth()
 {
     return this->width;
+}
+
+int Player::getScore()
+{
+    return this->score;
+}
+
+int Player::getDamage()
+{
+    return this->damage;
 }

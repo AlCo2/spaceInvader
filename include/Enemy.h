@@ -6,11 +6,13 @@
 #include "Entity.h"
 #include "Animation.h"
 
+class Player;
 
 class Enemy : public Entity{
 
 private:
     int health;
+    int point;
     Animation* explosionAnimation;
 
     static constexpr int structure[4][7] = {
@@ -26,11 +28,11 @@ public:
     static void initEnemies(SDL_Renderer* renderer);
     static void drawEnemies(SDL_Renderer* renderer);
 
-    Enemy(int width, int hight, int x, int y, int health, char* path, SDL_Renderer* renderer);
-    Enemy(int width, int hight, int health, char* path, SDL_Renderer* renderer);
+    Enemy(int width, int hight, int x, int y, int health, int point,char* path, SDL_Renderer* renderer);
+    Enemy(int width, int hight, int health, int point, char* path, SDL_Renderer* renderer);
     ~Enemy();
     void draw(SDL_Renderer* renderer);
-    void damageEnemy(int damage);
+    void damageEnemy(Player* player);
     void setExplosionAnimation(Animation* explosionAnimation);
     void kill();
     bool isDead();

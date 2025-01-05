@@ -4,7 +4,9 @@
 #include "Player.h"
 #include "Animation.h"
 #include "Enemy.h"
+#include "Utils.h"
 #include <algorithm>
+#include <string>
 
 #define WIDTH 600
 #define HIGHT 400
@@ -33,6 +35,8 @@ AppState Game::run()
 
     SDL_Texture* background = loadTexture("assets/gameBackground.jpg", renderer);
 
+    TTF_Font* font = TTF_OpenFont("assets/arialbd.ttf", 25);
+    SDL_Color white = {255, 255, 255, 255};
 
     music = Mix_LoadMUS("sounds/song.mpeg");
     enemyKilledSound = Mix_LoadWAV("sounds/enemykilled.wav");
@@ -110,10 +114,13 @@ AppState Game::run()
             Animation::updateAnimation(explosionAnimation, 100);
             Animation::drawAnimation(explosionAnimation, renderer);
         }
-        Bullet::moveBullets(Enemy::enemies, &explosionAnimation);
+        Bullet::moveBullets(Enemy::enemies, &player, &explosionAnimation);
         Enemy::drawEnemies(renderer);
         Bullet::drawBullets(renderer);
         player.draw(renderer);
+        std::string score = "score: ";
+        score+=std::to_string(player.getScore());
+        renderText(renderer, font, score, 10, 10, white);
         SDL_RenderPresent(renderer);
         SDL_Delay(5);
     }

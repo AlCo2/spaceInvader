@@ -21,7 +21,7 @@ public:
     void move();
     void draw(SDL_Renderer* renderer);
     static void drawBullets(SDL_Renderer* renderer);
-    static void moveBullets(std::vector<std::vector<Enemy*>> enemies, Animation* explosionAnimation);
+    static void moveBullets(std::vector<std::vector<Enemy*>> enemies, Player* player, Animation* explosionAnimation);
     bool isEnemyHit(Enemy* enemy);
     void deleteBullet();
     int getX();

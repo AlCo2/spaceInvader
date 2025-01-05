@@ -13,7 +13,6 @@ Menu::Menu(SDL_Renderer* renderer)
 
 AppState Menu::run()
 {
-    TTF_Init();
     SDL_Event event;
     bool isRunning = true;
     TTF_Font* optionFont = TTF_OpenFont("assets/arialbd.ttf", 25);
